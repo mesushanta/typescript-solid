@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var product_1 = require("./ts/product");
+var shoppingBasket_1 = require("./ts/shoppingBasket");
+var fixedDiscount_1 = require("./ts/fixedDiscount");
+var noDiscount_1 = require("./ts/noDiscount");
+var variableDiscount_1 = require("./ts/variableDiscount");
+var cart = new shoppingBasket_1.ShoppingBasket();
+cart.addProduct(new product_1.Product('Laptop', 1200, new fixedDiscount_1.FixedDiscount(150)));
+cart.addProduct(new product_1.Product('Printer', 240, new variableDiscount_1.VariableDiscount(20)));
+cart.addProduct(new product_1.Product('TV', 2750, new noDiscount_1.NoDiscount()));
+var tableElement = document.querySelector('#cart tbody');
+cart.products.forEach(function (product) {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    td.innerText = product.name;
+    tr.appendChild(td);
+    td = document.createElement('td');
+    td.innerText = product.originalPrice.toFixed(2) + " €";
+    tr.appendChild(td);
+    td = document.createElement('td');
+    td.innerText = product.calculatePrice().toFixed(2) + " €";
+    tr.appendChild(td);
+    td = document.createElement('td');
+    td.innerText = product.showCalculation();
+    tr.appendChild(td);
+    tableElement.appendChild(tr);
+});
